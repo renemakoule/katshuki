@@ -8,6 +8,8 @@ import { FeatureSection } from "@/components/sections/feature-section"
 import CreativeBackground from "@/components/component"
 import { CreativeStudio } from "@/components/sections/creative-studio"
 import ImageMask from "@/components/image-mask"
+import { SplashCursor } from "@/components/splash-cursor"
+
 
 export default function LandingPage() {
   // État pour gérer le montage côté client
@@ -31,6 +33,8 @@ export default function LandingPage() {
 
       {/* Header fixe */}
       <Header mounted={mounted} />
+
+      <SplashCursor />
 
       {/* Contenu principal avec padding-top et z-index pour être au premier plan */}
       <div className="pt-20 relative z-10">
