@@ -1,0 +1,838 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Palettes de couleurs inspirées d'animes/mangas */
+
+    /* Naruto - Orange et Bleu */
+    --naruto-primary: 25 95% 53%;
+    --naruto-secondary: 220 91% 54%;
+    --naruto-accent: 45 93% 47%;
+
+    /* Dragon Ball - Orange et Bleu Saiyan */
+    --dragon-ball-primary: 39 100% 50%;
+    --dragon-ball-secondary: 200 100% 50%;
+    --dragon-ball-accent: 60 100% 50%;
+
+    /* One Piece - Rouge et Bleu Marine */
+    --one-piece-primary: 0 84% 60%;
+    --one-piece-secondary: 220 39% 11%;
+    --one-piece-accent: 45 100% 51%;
+
+    /* Attack on Titan - Vert et Brun */
+    --attack-titan-primary: 120 25% 35%;
+    --attack-titan-secondary: 30 25% 25%;
+    --attack-titan-accent: 60 30% 40%;
+
+    /* Demon Slayer - Rouge et Noir */
+    --demon-slayer-primary: 0 100% 50%;
+    --demon-slayer-secondary: 0 0% 10%;
+    --demon-slayer-accent: 15 100% 45%;
+
+    /* My Hero Academia - Vert et Orange */
+    --my-hero-primary: 120 100% 25%;
+    --my-hero-secondary: 25 100% 50%;
+    --my-hero-accent: 60 100% 35%;
+
+    /* Death Note - Noir et Rouge */
+    --death-note-primary: 0 0% 8%;
+    --death-note-secondary: 0 100% 40%;
+    --death-note-accent: 0 0% 20%;
+
+    /* Sailor Moon - Rose et Bleu */
+    --sailor-moon-primary: 330 81% 60%;
+    --sailor-moon-secondary: 200 100% 70%;
+    --sailor-moon-accent: 300 100% 80%;
+
+    /* Evangelion - Violet et Vert */
+    --evangelion-primary: 270 50% 40%;
+    --evangelion-secondary: 120 100% 25%;
+    --evangelion-accent: 300 60% 50%;
+
+    /* Bleach - Blanc et Noir */
+    --bleach-primary: 0 0% 95%;
+    --bleach-secondary: 0 0% 5%;
+    --bleach-accent: 200 50% 50%;
+
+    /* Fullmetal Alchemist - Or et Rouge */
+    --fullmetal-primary: 45 100% 50%;
+    --fullmetal-secondary: 0 75% 45%;
+    --fullmetal-accent: 30 100% 40%;
+
+    /* Tokyo Ghoul - Rouge et Noir */
+    --tokyo-ghoul-primary: 0 100% 35%;
+    --tokyo-ghoul-secondary: 0 0% 15%;
+    --tokyo-ghoul-accent: 15 80% 30%;
+
+    /* Jujutsu Kaisen - Bleu et Noir */
+    --jujutsu-kaisen-primary: 220 100% 50%;
+    --jujutsu-kaisen-secondary: 0 0% 10%;
+    --jujutsu-kaisen-accent: 240 80% 40%;
+
+    /* Hunter x Hunter - Vert et Jaune */
+    --hunter-hunter-primary: 120 100% 30%;
+    --hunter-hunter-secondary: 60 100% 50%;
+    --hunter-hunter-accent: 90 80% 40%;
+
+    /* Akira - Rouge Néon et Noir */
+    --akira-primary: 0 100% 50%;
+    --akira-secondary: 0 0% 8%;
+    --akira-accent: 15 100% 60%;
+
+    /* Ghost in the Shell - Cyan et Violet */
+    --ghost-shell-primary: 180 100% 50%;
+    --ghost-shell-secondary: 270 100% 30%;
+    --ghost-shell-accent: 200 80% 60%;
+
+    /* Spirited Away - Vert et Or */
+    --spirited-away-primary: 120 40% 40%;
+    --spirited-away-secondary: 45 80% 50%;
+    --spirited-away-accent: 90 60% 45%;
+
+    /* Princess Mononoke - Vert Forêt et Brun */
+    --mononoke-primary: 120 60% 25%;
+    --mononoke-secondary: 30 40% 30%;
+    --mononoke-accent: 90 50% 35%;
+
+    /* Cowboy Bebop - Jaune et Noir */
+    --cowboy-bebop-primary: 45 100% 50%;
+    --cowboy-bebop-secondary: 0 0% 15%;
+    --cowboy-bebop-accent: 30 100% 40%;
+
+    /* Violet Evergarden - Violet et Or */
+    --violet-evergarden-primary: 270 50% 60%;
+    --violet-evergarden-secondary: 45 70% 50%;
+    --violet-evergarden-accent: 300 40% 70%;
+
+    /* Your Name - Bleu Ciel et Rose */
+    --your-name-primary: 200 100% 70%;
+    --your-name-secondary: 330 70% 60%;
+    --your-name-accent: 220 80% 80%;
+
+    /* Weathering With You - Bleu Orage et Jaune */
+    --weathering-primary: 220 80% 40%;
+    --weathering-secondary: 50 100% 50%;
+    --weathering-accent: 200 60% 60%;
+
+    /* Studio Ghibli - Vert Tendre et Crème */
+    --ghibli-primary: 120 30% 50%;
+    --ghibli-secondary: 45 40% 80%;
+    --ghibli-accent: 90 40% 60%;
+
+    /* Mob Psycho - Bleu Psychique et Blanc */
+    --mob-psycho-primary: 220 100% 60%;
+    --mob-psycho-secondary: 0 0% 95%;
+    --mob-psycho-accent: 240 80% 70%;
+
+    /* One Punch Man - Jaune et Rouge */
+    --one-punch-primary: 50 100% 50%;
+    --one-punch-secondary: 0 100% 50%;
+    --one-punch-accent: 30 100% 45%;
+
+    /* Fire Force - Orange Feu et Noir */
+    --fire-force-primary: 15 100% 50%;
+    --fire-force-secondary: 0 0% 10%;
+    --fire-force-accent: 30 100% 60%;
+
+    /* Dr. Stone - Vert Science et Blanc */
+    --dr-stone-primary: 120 100% 30%;
+    --dr-stone-secondary: 0 0% 95%;
+    --dr-stone-accent: 90 80% 40%;
+
+    /* Promised Neverland - Orange et Vert */
+    --promised-neverland-primary: 25 100% 50%;
+    --promised-neverland-secondary: 120 60% 30%;
+    --promised-neverland-accent: 45 80% 40%;
+
+    /* Chainsaw Man - Rouge Sang et Jaune */
+    --chainsaw-man-primary: 0 100% 40%;
+    --chainsaw-man-secondary: 50 100% 50%;
+    --chainsaw-man-accent: 15 100% 45%;
+
+    /* Spy x Family - Rose et Vert */
+    --spy-family-primary: 330 60% 60%;
+    --spy-family-secondary: 120 40% 40%;
+    --spy-family-accent: 300 50% 70%;
+
+    /* Haikyuu - Orange et Noir */
+    --haikyuu-primary: 25 100% 50%;
+    --haikyuu-secondary: 0 0% 15%;
+    --haikyuu-accent: 45 80% 40%;
+
+    /* Kuroko Basketball - Bleu et Blanc */
+    --kuroko-primary: 200 100% 50%;
+    --kuroko-secondary: 0 0% 95%;
+    --kuroko-accent: 220 80% 60%;
+
+    /* Food Wars - Rouge et Or */
+    --food-wars-primary: 0 100% 50%;
+    --food-wars-secondary: 45 100% 50%;
+    --food-wars-accent: 15 100% 45%;
+
+    /* Black Clover - Noir et Vert */
+    --black-clover-primary: 0 0% 10%;
+    --black-clover-secondary: 120 100% 25%;
+    --black-clover-accent: 90 60% 30%;
+
+    /* Fairy Tail - Rose et Bleu */
+    --fairy-tail-primary: 330 80% 60%;
+    --fairy-tail-secondary: 200 100% 50%;
+    --fairy-tail-accent: 300 60% 70%;
+
+    /* Seven Deadly Sins - Vert et Or */
+    --seven-sins-primary: 120 60% 30%;
+    --seven-sins-secondary: 45 100% 50%;
+    --seven-sins-accent: 90 70% 40%;
+
+    /* Overlord - Noir et Or */
+    --overlord-primary: 0 0% 8%;
+    --overlord-secondary: 45 100% 50%;
+    --overlord-accent: 30 80% 30%;
+
+    /* Re:Zero - Bleu et Blanc */
+    --re-zero-primary: 220 100% 50%;
+    --re-zero-secondary: 0 0% 95%;
+    --re-zero-accent: 200 80% 60%;
+
+    /* Konosuba - Bleu et Jaune */
+    --konosuba-primary: 220 100% 60%;
+    --konosuba-secondary: 50 100% 50%;
+    --konosuba-accent: 200 80% 70%;
+
+    /* That Time I Got Reincarnated - Bleu et Argent */
+    --slime-primary: 200 100% 50%;
+    --slime-secondary: 0 0% 70%;
+    --slime-accent: 220 60% 60%;
+
+    /* Goblin Slayer - Vert Sombre et Gris */
+    --goblin-slayer-primary: 120 30% 25%;
+    --goblin-slayer-secondary: 0 0% 40%;
+    --goblin-slayer-accent: 90 40% 30%;
+
+    /* Shield Hero - Vert et Orange */
+    --shield-hero-primary: 120 60% 30%;
+    --shield-hero-secondary: 25 100% 50%;
+    --shield-hero-accent: 90 70% 40%;
+
+    /* Sword Art Online - Bleu et Noir */
+    --sao-primary: 220 100% 50%;
+    --sao-secondary: 0 0% 10%;
+    --sao-accent: 200 80% 40%;
+
+    /* No Game No Life - Violet et Rose */
+    --no-game-primary: 270 100% 50%;
+    --no-game-secondary: 330 100% 60%;
+    --no-game-accent: 300 80% 70%;
+
+    /* Steins Gate - Vert Labo et Blanc */
+    --steins-gate-primary: 120 40% 40%;
+    --steins-gate-secondary: 0 0% 95%;
+    --steins-gate-accent: 90 50% 50%;
+
+    /* Code Geass - Violet et Or */
+    --code-geass-primary: 270 60% 40%;
+    --code-geass-secondary: 45 100% 50%;
+    --code-geass-accent: 300 50% 50%;
+
+    /* Fate Series - Bleu et Rouge */
+    --fate-primary: 220 100% 50%;
+    --fate-secondary: 0 100% 50%;
+    --fate-accent: 240 80% 60%;
+
+    /* Monogatari - Rouge et Noir */
+    --monogatari-primary: 0 100% 50%;
+    --monogatari-secondary: 0 0% 10%;
+    --monogatari-accent: 15 80% 40%;
+
+    /* JoJo Bizarre Adventure - Or et Violet */
+    --jojo-primary: 45 100% 50%;
+    --jojo-secondary: 270 100% 50%;
+    --jojo-accent: 60 80% 60%;
+
+    /* Berserk - Noir et Rouge Sang */
+    --berserk-primary: 0 0% 5%;
+    --berserk-secondary: 0 100% 30%;
+    --berserk-accent: 0 50% 15%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Classes pour les palettes de couleurs */
+.palette-naruto {
+  --primary: var(--naruto-primary);
+  --secondary: var(--naruto-secondary);
+  --accent: var(--naruto-accent);
+}
+
+.palette-dragon-ball {
+  --primary: var(--dragon-ball-primary);
+  --secondary: var(--dragon-ball-secondary);
+  --accent: var(--dragon-ball-accent);
+}
+
+.palette-one-piece {
+  --primary: var(--one-piece-primary);
+  --secondary: var(--one-piece-secondary);
+  --accent: var(--one-piece-accent);
+}
+
+.palette-attack-titan {
+  --primary: var(--attack-titan-primary);
+  --secondary: var(--attack-titan-secondary);
+  --accent: var(--attack-titan-accent);
+}
+
+.palette-demon-slayer {
+  --primary: var(--demon-slayer-primary);
+  --secondary: var(--demon-slayer-secondary);
+  --accent: var(--demon-slayer-accent);
+}
+
+.palette-my-hero {
+  --primary: var(--my-hero-primary);
+  --secondary: var(--my-hero-secondary);
+  --accent: var(--my-hero-accent);
+}
+
+.palette-death-note {
+  --primary: var(--death-note-primary);
+  --secondary: var(--death-note-secondary);
+  --accent: var(--death-note-accent);
+}
+
+.palette-sailor-moon {
+  --primary: var(--sailor-moon-primary);
+  --secondary: var(--sailor-moon-secondary);
+  --accent: var(--sailor-moon-accent);
+}
+
+.palette-evangelion {
+  --primary: var(--evangelion-primary);
+  --secondary: var(--evangelion-secondary);
+  --accent: var(--evangelion-accent);
+}
+
+.palette-bleach {
+  --primary: var(--bleach-primary);
+  --secondary: var(--bleach-secondary);
+  --accent: var(--bleach-accent);
+}
+
+.palette-fullmetal {
+  --primary: var(--fullmetal-primary);
+  --secondary: var(--fullmetal-secondary);
+  --accent: var(--fullmetal-accent);
+}
+
+.palette-tokyo-ghoul {
+  --primary: var(--tokyo-ghoul-primary);
+  --secondary: var(--tokyo-ghoul-secondary);
+  --accent: var(--tokyo-ghoul-accent);
+}
+
+.palette-jujutsu-kaisen {
+  --primary: var(--jujutsu-kaisen-primary);
+  --secondary: var(--jujutsu-kaisen-secondary);
+  --accent: var(--jujutsu-kaisen-accent);
+}
+
+.palette-hunter-hunter {
+  --primary: var(--hunter-hunter-primary);
+  --secondary: var(--hunter-hunter-secondary);
+  --accent: var(--hunter-hunter-accent);
+}
+
+.palette-akira {
+  --primary: var(--akira-primary);
+  --secondary: var(--akira-secondary);
+  --accent: var(--akira-accent);
+}
+
+.palette-ghost-shell {
+  --primary: var(--ghost-shell-primary);
+  --secondary: var(--ghost-shell-secondary);
+  --accent: var(--ghost-shell-accent);
+}
+
+.palette-spirited-away {
+  --primary: var(--spirited-away-primary);
+  --secondary: var(--spirited-away-secondary);
+  --accent: var(--spirited-away-accent);
+}
+
+.palette-mononoke {
+  --primary: var(--mononoke-primary);
+  --secondary: var(--mononoke-secondary);
+  --accent: var(--mononoke-accent);
+}
+
+.palette-cowboy-bebop {
+  --primary: var(--cowboy-bebop-primary);
+  --secondary: var(--cowboy-bebop-secondary);
+  --accent: var(--cowboy-bebop-accent);
+}
+
+.palette-violet-evergarden {
+  --primary: var(--violet-evergarden-primary);
+  --secondary: var(--violet-evergarden-secondary);
+  --accent: var(--violet-evergarden-accent);
+}
+
+.palette-your-name {
+  --primary: var(--your-name-primary);
+  --secondary: var(--your-name-secondary);
+  --accent: var(--your-name-accent);
+}
+
+.palette-weathering {
+  --primary: var(--weathering-primary);
+  --secondary: var(--weathering-secondary);
+  --accent: var(--weathering-accent);
+}
+
+.palette-ghibli {
+  --primary: var(--ghibli-primary);
+  --secondary: var(--ghibli-secondary);
+  --accent: var(--ghibli-accent);
+}
+
+.palette-mob-psycho {
+  --primary: var(--mob-psycho-primary);
+  --secondary: var(--mob-psycho-secondary);
+  --accent: var(--mob-psycho-accent);
+}
+
+.palette-one-punch {
+  --primary: var(--one-punch-primary);
+  --secondary: var(--one-punch-secondary);
+  --accent: var(--one-punch-accent);
+}
+
+.palette-fire-force {
+  --primary: var(--fire-force-primary);
+  --secondary: var(--fire-force-secondary);
+  --accent: var(--fire-force-accent);
+}
+
+.palette-dr-stone {
+  --primary: var(--dr-stone-primary);
+  --secondary: var(--dr-stone-secondary);
+  --accent: var(--dr-stone-accent);
+}
+
+.palette-promised-neverland {
+  --primary: var(--promised-neverland-primary);
+  --secondary: var(--promised-neverland-secondary);
+  --accent: var(--promised-neverland-accent);
+}
+
+.palette-chainsaw-man {
+  --primary: var(--chainsaw-man-primary);
+  --secondary: var(--chainsaw-man-secondary);
+  --accent: var(--chainsaw-man-accent);
+}
+
+.palette-spy-family {
+  --primary: var(--spy-family-primary);
+  --secondary: var(--spy-family-secondary);
+  --accent: var(--spy-family-accent);
+}
+
+.palette-haikyuu {
+  --primary: var(--haikyuu-primary);
+  --secondary: var(--haikyuu-secondary);
+  --accent: var(--haikyuu-accent);
+}
+
+.palette-kuroko {
+  --primary: var(--kuroko-primary);
+  --secondary: var(--kuroko-secondary);
+  --accent: var(--kuroko-accent);
+}
+
+.palette-food-wars {
+  --primary: var(--food-wars-primary);
+  --secondary: var(--food-wars-secondary);
+  --accent: var(--food-wars-accent);
+}
+
+.palette-black-clover {
+  --primary: var(--black-clover-primary);
+  --secondary: var(--black-clover-secondary);
+  --accent: var(--black-clover-accent);
+}
+
+.palette-fairy-tail {
+  --primary: var(--fairy-tail-primary);
+  --secondary: var(--fairy-tail-secondary);
+  --accent: var(--fairy-tail-accent);
+}
+
+.palette-seven-sins {
+  --primary: var(--seven-sins-primary);
+  --secondary: var(--seven-sins-secondary);
+  --accent: var(--seven-sins-accent);
+}
+
+.palette-overlord {
+  --primary: var(--overlord-primary);
+  --secondary: var(--overlord-secondary);
+  --accent: var(--overlord-accent);
+}
+
+.palette-re-zero {
+  --primary: var(--re-zero-primary);
+  --secondary: var(--re-zero-secondary);
+  --accent: var(--re-zero-accent);
+}
+
+.palette-konosuba {
+  --primary: var(--konosuba-primary);
+  --secondary: var(--konosuba-secondary);
+  --accent: var(--konosuba-accent);
+}
+
+.palette-slime {
+  --primary: var(--slime-primary);
+  --secondary: var(--slime-secondary);
+  --accent: var(--slime-accent);
+}
+
+.palette-goblin-slayer {
+  --primary: var(--goblin-slayer-primary);
+  --secondary: var(--goblin-slayer-secondary);
+  --accent: var(--goblin-slayer-accent);
+}
+
+.palette-shield-hero {
+  --primary: var(--shield-hero-primary);
+  --secondary: var(--shield-hero-secondary);
+  --accent: var(--shield-hero-accent);
+}
+
+.palette-sao {
+  --primary: var(--sao-primary);
+  --secondary: var(--sao-secondary);
+  --accent: var(--sao-accent);
+}
+
+.palette-no-game {
+  --primary: var(--no-game-primary);
+  --secondary: var(--no-game-secondary);
+  --accent: var(--no-game-accent);
+}
+
+.palette-steins-gate {
+  --primary: var(--steins-gate-primary);
+  --secondary: var(--steins-gate-secondary);
+  --accent: var(--steins-gate-accent);
+}
+
+.palette-code-geass {
+  --primary: var(--code-geass-primary);
+  --secondary: var(--code-geass-secondary);
+  --accent: var(--code-geass-accent);
+}
+
+.palette-fate {
+  --primary: var(--fate-primary);
+  --secondary: var(--fate-secondary);
+  --accent: var(--fate-accent);
+}
+
+.palette-monogatari {
+  --primary: var(--monogatari-primary);
+  --secondary: var(--monogatari-secondary);
+  --accent: var(--monogatari-accent);
+}
+
+.palette-jojo {
+  --primary: var(--jojo-primary);
+  --secondary: var(--jojo-secondary);
+  --accent: var(--jojo-accent);
+}
+
+.palette-berserk {
+  --primary: var(--berserk-primary);
+  --secondary: var(--berserk-secondary);
+  --accent: var(--berserk-accent);
+}
+
+/* Animations pour les circuits lumineux */
+@keyframes circuit-flow {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes circuit-flow-fast {
+  0% {
+    stroke-dashoffset: 500;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes circuit-flow-glow {
+  0% {
+    stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.8));
+  }
+  100% {
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.8));
+  }
+}
+
+@keyframes circuit-flow-glow-fast {
+  0% {
+    stroke-dashoffset: 500;
+    filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.8));
+  }
+  100% {
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.8));
+  }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+}
+
+@keyframes pulse-bright {
+  0%,
+  100% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 3px currentColor);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1);
+  }
+}
+
+.animate-circuit-flow {
+  animation: circuit-flow 15s linear infinite;
+}
+
+.animate-circuit-flow-fast {
+  animation: circuit-flow-fast 8s linear infinite;
+}
+
+.animate-circuit-flow-glow {
+  animation: circuit-flow-glow 15s linear infinite;
+}
+
+.animate-circuit-flow-glow-fast {
+  animation: circuit-flow-glow-fast 8s linear infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-pulse-bright {
+  animation: pulse-bright 3s ease-in-out infinite;
+}
+
+/* Effet de lueur pour les capsules */
+.glow-effect {
+  filter: drop-shadow(0 0 2px rgba(79, 70, 229, 0.6));
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.glow-effect-bright {
+  filter: drop-shadow(0 0 5px rgba(99, 102, 241, 0.8));
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Police personnalisée */
+.font-outfit {
+  font-family: "Outfit", "Space Grotesk", sans-serif;
+}
+
+/* Effet de lumière douce pour le texte du héros en mode sombre */
+.dark .hero-word {
+  position: relative;
+  display: inline-block;
+  animation: text-glow 3s ease-in-out infinite;
+  background-clip: text;
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.9)
+  );
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+@keyframes text-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+  }
+}
+
+/* Amélioration des couleurs vives en mode sombre */
+.dark .stop-color-bright {
+  stop-color: inherit;
+  stop-opacity: 1;
+  filter: brightness(1.5);
+}
+
+/* Classes utilitaires pour les palettes */
+.text-palette-primary {
+  color: hsl(var(--primary));
+}
+
+.bg-palette-primary {
+  background-color: hsl(var(--primary));
+}
+
+.text-palette-secondary {
+  color: hsl(var(--secondary));
+}
+
+.bg-palette-secondary {
+  background-color: hsl(var(--secondary));
+}
+
+.text-palette-accent {
+  color: hsl(var(--accent));
+}
+
+.bg-palette-accent {
+  background-color: hsl(var(--accent));
+}
+
+.border-palette-primary {
+  border-color: hsl(var(--primary));
+}
+
+.border-palette-secondary {
+  border-color: hsl(var(--secondary));
+}
+
+.border-palette-accent {
+  border-color: hsl(var(--accent));
+}
