@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 // Importez toutes vos polices depuis next/font/google
 import { Space_Grotesk, Josefin_Slab, Playfair_Display, My_Soul } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { SecurityProvider } from "@/components/security/security-provider"
 import "./globals.css"
 
 // Police principale (appliquée directement au body)
@@ -47,9 +48,11 @@ export default function RootLayout({
       {/* Plus besoin de <head> ou de <link> pour les polices ! */}
 
       <body className={josefinSlab.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange={false}>
-          {children}
-        </ThemeProvider>
+        <SecurityProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange={false}>
+            {children}
+          </ThemeProvider>
+        </SecurityProvider>
       </body>
     </html>
   )

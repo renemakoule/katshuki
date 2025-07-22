@@ -1,4 +1,13 @@
-import { withSentryConfig } from "@sentry/nextjs";
+// scripts/enable-obfuscation.js
+// Script pour réactiver l'obfuscation après installation du package
+
+const fs = require('fs');
+const path = require('path');
+
+const configPath = path.join(__dirname, '..', 'next.config.mjs');
+
+// Configuration complète avec obfuscation
+const obfuscatedConfig = `import { withSentryConfig } from "@sentry/nextjs";
 import WebpackObfuscator from 'webpack-obfuscator';
 
 let userConfig = undefined
@@ -72,7 +81,7 @@ const nextConfig = {
           
           // Domaines autorisés (optionnel)
           domainLock: process.env.NODE_ENV === 'production' ? [
-            process.env.NEXT_PUBLIC_APP_URL?.replace(/https?:\/\//, '') || 'localhost'
+            process.env.NEXT_PUBLIC_APP_URL?.replace(/https?:\\/\\//, '') || 'localhost'
           ] : []
         }, [])
       );
@@ -104,36 +113,51 @@ function mergeConfig(nextConfig, userConfig) {
   }
 }
 
-// Sentry temporairement désactivé pour éviter les conflits avec SecurityProvider
-// export default withSentryConfig(nextConfig, {
-//   org: "codeium-oss",
-//   project: "windsurf",
-//   silent: !process.env.CI,
-//   widenClientFileUpload: true,
-//   reactComponentAnnotation: {
-//     enabled: true,
-//   },
-//   hideSourceMaps: true,
-//   disableLogger: true,
-//   automaticVercelMonitors: true,
-// });
-
 export default withSentryConfig(nextConfig, {
   org: "codeium-oss",
   project: "windsurf",
   silent: !process.env.CI,
-  
-  // Réduire l'instrumentation automatique
-  autoInstrumentServerFunctions: false,
-  autoInstrumentMiddleware: false,
-  
-  // Configuration compatible avec SecurityProvider
-  widenClientFileUpload: false,
+  widenClientFileUpload: true,
+  reactComponentAnnotation: {
+    enabled: true,
+  },
   hideSourceMaps: true,
   disableLogger: true,
-  
-  // Exclure nos fichiers de sécurité de l'instrumentation
-  excludeServerRoutes: [
-    '/api/license/*'
-  ]
-});
+  automaticVercelMonitors: true,
+});`;
+
+function enableObfuscation() {
+  try {
+    // Vérifier si webpack-obfuscator est installé
+    try {
+      require.resolve('webpack-obfuscator');
+      console.log('✅ webpack-obfuscator détecté');
+    } catch (e) {
+      console.error('❌ webpack-obfuscator non installé. Exécutez: npm install --save-dev webpack-obfuscator');
+      process.exit(1);
+    }
+
+    // Sauvegarder l'ancien fichier
+    const backupPath = configPath + '.backup';
+    if (fs.existsSync(configPath)) {
+      fs.copyFileSync(configPath, backupPath);
+      console.log('📁 Sauvegarde créée:', backupPath);
+    }
+
+    // Écrire la nouvelle configuration
+    fs.writeFileSync(configPath, obfuscatedConfig);
+    console.log('🔒 Obfuscation activée dans next.config.mjs');
+    console.log('🚀 Vous pouvez maintenant exécuter: npm run build');
+    
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'activation de l\'obfuscation:', error.message);
+    process.exit(1);
+  }
+}
+
+// Exécuter si appelé directement
+if (require.main === module) {
+  enableObfuscation();
+}
+
+module.exports = { enableObfuscation };
