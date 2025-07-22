@@ -32,6 +32,7 @@ import {
   Lightbulb,
   Rocket,
   Clock,
+  Activity,
 } from "lucide-react"
 
 const creativeTools = [
@@ -125,6 +126,14 @@ const aiFeatures = [
     icon: Lightbulb,
     id: "inspirations",
     gradient: "from-pink-500 via-rose-500 to-orange-500",
+  },
+  {
+    title: "Suivi des Tâches",
+    url: "#",
+    icon: Activity,
+    id: "jobs",
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    badge: "Nouveau",
   },
 ]
 

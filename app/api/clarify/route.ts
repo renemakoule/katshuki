@@ -1,32 +1,46 @@
-// app/api/clarify/route.ts
+//app/api/clarify/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { openaiService } from '@/lib/services/openai.service';
+import { errorHandler } from '@/lib/services/error-handler.service';
+import { logger, LogCategory } from '@/lib/services/logger.service';
+import { metricsService } from '@/lib/services/metrics.service';
+import { ClarificationPayload } from '@/lib/types';
 
-import { NextResponse } from "next/server";
-import { ClarificationPayload } from "@/lib/types";
-import { runClarificationPipeline } from "@/lib/services/clarification.service";
+export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  const requestId = generateRequestId();
+  const { pathname: path } = request.nextUrl;
+  const method = request.method;
+  const userId = extractUserId(request);
 
-export async function POST(request: Request) {
+  logger.info(LogCategory.API, 'Clarify request received', { requestId, userId, path, method });
+
   try {
-    const payload = (await request.json()) as ClarificationPayload;
+    const body: ClarificationPayload = await request.json();
 
-    if (!payload.idea || typeof payload.idea !== 'string' || payload.idea.trim() === '') {
-      return NextResponse.json(
-        { error: "Payload invalide. Une 'idea' non vide est requise." },
-        { status: 400 }
-      );
-    }
+    // Using the correct method from the OpenAI service
+    const result = await openaiService.createChatCompletion(body);
 
-    // On exécute le pipeline de clarification
-    const result = await runClarificationPipeline(payload);
-    
-    // On retourne le plan d'action au frontend
+    const duration = Date.now() - startTime;
+    logger.info(LogCategory.API, 'Clarify request successful', { requestId, duration });
+    metricsService.recordAPIMetrics(path, method, 200, duration);
+
     return NextResponse.json(result);
 
-  } catch (error) {
-    console.error("Erreur dans /api/clarify:", error);
-    const errorMessage = error instanceof Error ? error.message : "Erreur inconnue.";
-    return NextResponse.json(
-      { error: "Erreur interne du serveur.", details: errorMessage },
-      { status: 500 }
-    );
+  } catch (error: any) {
+    return errorHandler.handleError(error, requestId);
   }
+}
+
+function generateRequestId(): string {
+  return `req_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+}
+
+function extractUserId(request: NextRequest): string | undefined {
+  // This should be adapted to your actual authentication system
+  const authHeader = request.headers.get('authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    return 'user_from_token'; // Placeholder
+  }
+  return undefined;
 }

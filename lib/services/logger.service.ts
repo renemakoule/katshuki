@@ -1,10 +1,12 @@
- export enum LogCategory {
+export enum LogCategory {
   GENERAL = "GENERAL",
   API = "API",
   DATABASE = "DATABASE",
   AUTHENTICATION = "AUTHENTICATION",
   METRIC = "METRIC",
   GENERATION = "GENERATION",
+  SYSTEM = "SYSTEM",
+  JOB = "JOB"
 }
 
 const log = (level: string, category: LogCategory, message: string, data?: any) => {

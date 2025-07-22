@@ -3,91 +3,132 @@ import { NextResponse } from "next/server";
 import { logger, LogCategory } from "./logger.service";
 import { metricsService } from "./metrics.service";
 
-// Custom error for validation issues
-export class ValidationError extends Error {
+export class CustomError extends Error {
+  public statusCode: number;
+
+  constructor(message: string, statusCode: number = 500) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+export class ValidationError extends CustomError {
   constructor(message: string) {
-    super(message);
-    this.name = "ValidationError";
+    super(message, 400); // Bad Request
   }
 }
 
-// Custom error for external API failures
-export class ExternalApiError extends Error {
-  constructor(message: string = "An error occurred with an external service.") {
-    super(message);
-    this.name = "ExternalApiError";
+export class TimeoutError extends CustomError {
+  constructor(operation: string, timeout: number) {
+    super(`Operation '${operation}' timed out after ${timeout}ms`, 504); // Gateway Timeout
   }
 }
 
-// Custom error for not-found resources
-export class ResourceNotFoundError extends Error {
-  constructor(message: string = "The requested resource was not found.") {
-    super(message);
-    this.name = "ResourceNotFoundError";
+export class ExternalApiError extends CustomError {
+  constructor(serviceName: string, originalError: Error) {
+    super(`Error with ${serviceName}: ${originalError.message}`, 502); // Bad Gateway
   }
 }
 
-interface ErrorHandlerOptions {
-  requestId?: string;
-  userId?: string;
-  path: string;
-  method: string;
+export class NotFoundError extends CustomError {
+  constructor(resource: string) {
+    super(`${resource} not found.`, 404); // Not Found
+  }
+}
+
+export class RateLimitError extends CustomError {
+  constructor() {
+    super("Rate limit exceeded. Please try again later.", 429); // Too Many Requests
+  }
+}
+
+export class AuthenticationError extends CustomError {
+  constructor(message: string = "Authentication required") {
+    super(message, 401); // Unauthorized
+  }
+}
+
+export class DatabaseError extends CustomError {
+  constructor(message: string, originalError?: string) {
+    const fullMessage = originalError ? `${message}: ${originalError}` : message;
+    super(fullMessage, 500); // Internal Server Error
+  }
 }
 
 /**
- * Handles errors in a standardized way for API routes.
+ * Handles errors in a standardized way, logging them and returning a consistent JSON response.
  * @param error The error object.
- * @param duration The duration of the request in ms.
- * @param options Additional context for error handling.
- * @returns A NextResponse object with the appropriate status code and error message.
+ * @param requestInfo Optional information about the request for logging purposes.
+ * @returns A NextResponse object with a standardized error format.
  */
-export function errorHandler(
-  error: unknown,
-  duration: number,
-  options: ErrorHandlerOptions
-) {
-  const { requestId, path, method, userId } = options;
-  let responseBody: { error: string; type: string; details?: string };
-  let status: number;
+export const errorHandler = {
+  handleError: (
+    error: Error | CustomError,
+    requestId?: string
+  ) => {
+    const isCustomError = error instanceof CustomError;
+    const statusCode =
+      isCustomError && (error as CustomError).statusCode ? (error as CustomError).statusCode : 500;
+    const message = error.message || "An unexpected error occurred.";
 
-  if (error instanceof ValidationError) {
-    status = 400;
-    responseBody = { error: error.message, type: 'validation_error' };
-    logger.warn(LogCategory.API, 'API validation error', { error: error.message, duration, requestId, path });
-
-  } else if (error instanceof ResourceNotFoundError) {
-    status = 404;
-    responseBody = { error: error.message, type: 'not_found_error' };
-    logger.info(LogCategory.API, 'Resource not found', { error: error.message, duration, requestId, path });
-
-  } else if (error instanceof ExternalApiError) {
-    status = 502; // Bad Gateway
-    responseBody = { error: 'An error occurred with an external service.', type: 'external_api_error' };
-    logger.error(LogCategory.API, 'External API error', { error: error instanceof Error ? error.message : 'Unknown external error', duration, requestId, path });
-
-  } else if (error instanceof Error && error.message.includes('Rate limit')) {
-    status = 429;
-    responseBody = { error: error.message, type: 'rate_limit_error' };
-    logger.warn(LogCategory.API, 'API rate limit exceeded', { error: error.message, duration, requestId, path });
-
-  } else {
-    status = 500;
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    responseBody = {
-      error: "Internal Server Error.",
-      type: 'internal_error',
-      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined,
-    };
-    logger.error(LogCategory.API, 'API request failed', {
-      error: errorMessage,
-      stack: error instanceof Error ? error.stack : undefined,
-      duration,
+    logger.error(LogCategory.SYSTEM, "errorHandler caught an error", {
+      errorDetails: {
+        name: error.name,
+        message,
+        statusCode,
+        stack: error.stack,
+      },
       requestId,
-      path,
-      userId,
     });
-  }
 
-  metricsService.recordAPIMetrics(path, method, status, duration);
-  return NextResponse.json(responseBody, { status });
-}
+    metricsService.incrementMetric("errors.total");
+    metricsService.incrementMetric(`errors.status.${statusCode}`);
+
+    return {
+      success: false,
+      error: {
+        message,
+        type: error.name,
+        code: statusCode.toString(),
+        requestId
+      },
+      timestamp: new Date().toISOString()
+    };
+  }
+};
+
+// Fonction legacy pour compatibilité
+export const legacyErrorHandler = (
+  error: Error | CustomError,
+  requestInfo: object = {}
+) => {
+  const isCustomError = error instanceof CustomError;
+  const statusCode =
+    isCustomError && (error as CustomError).statusCode ? (error as CustomError).statusCode : 500;
+  const message = error.message || "An unexpected error occurred.";
+
+  logger.error(LogCategory.SYSTEM, "errorHandler caught an error", {
+    errorDetails: {
+      name: error.name,
+      message,
+      statusCode,
+      stack: error.stack,
+    },
+    requestInfo,
+  });
+
+  metricsService.incrementMetric("errors.total");
+  metricsService.incrementMetric(`errors.status.${statusCode}`);
+
+  return NextResponse.json(
+    {
+      error: {
+        message,
+        type: error.name,
+      },
+    },
+    { status: statusCode }
+  );
+};

@@ -53,6 +53,7 @@ import { CreativeBoostSection } from "./sections/creative-boost"
 import { InnovationLabSection } from "./sections/innovation-lab"
 // Ajoutez cet import en haut du fichier
 import { PreferencesSection } from "./sections/preferences"
+import { JobTracker } from "./job-tracker"
 
 interface DashboardContentProps {
   activeSection: string
@@ -221,6 +222,8 @@ export function DashboardContent({ activeSection }: DashboardContentProps) {
       // Dans la fonction getSectionTitle, ajoutez :
       case "preferences":
         return "Préférences"
+      case "jobs":
+        return "Suivi des Tâches"
       default:
         return "Co-Pilote Créatif"
     }
@@ -253,6 +256,8 @@ export function DashboardContent({ activeSection }: DashboardContentProps) {
       // Dans la fonction renderContent, ajoutez :
       case "preferences":
         return <PreferencesSection />
+      case "jobs":
+        return <JobTracker className="p-6" />
       case "copilot":
       default:
         return <DefaultDashboardContent />

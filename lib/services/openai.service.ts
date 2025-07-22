@@ -2,7 +2,7 @@
 
 import OpenAI from 'openai';
 import { logger, LogCategory } from './logger.service';
-import { errorHandler, ExternalServiceError, TimeoutError } from './error-handler.service';
+import { errorHandler, ExternalApiError, TimeoutError, RateLimitError } from './error-handler.service';
 import { configService } from './config.service';
 import { rateLimiterService } from './rate-limiter.service';
 import { metricsService } from './metrics.service';
@@ -13,7 +13,7 @@ class OpenAIService {
   private config: any;
 
   constructor() {
-    this.config = configService.getOpenAIConfig();
+    this.config = { apiKey: configService.openaiApiKey, timeout: configService.timeout };
     
     if (!this.config.apiKey) {
   throw new Error("La clé API OpenAI n'est pas configurée dans .env.local");
@@ -64,9 +64,9 @@ class OpenAIService {
 
     // Rate limiting par utilisateur
     if (userId) {
-      const rateLimitResult = await rateLimiterService.checkLimitByUser(userId, 'openai');
-      if (!rateLimitResult.allowed) {
-        throw new Error(`Rate limit exceeded for user ${userId}. Try again later.`);
+      const { success } = await rateLimiterService.limit(userId);
+      if (!success) {
+        throw new RateLimitError();
       }
     }
 
@@ -139,7 +139,7 @@ class OpenAIService {
       } else if (error.code === 'timeout') {
         throw new TimeoutError('OpenAI request', this.config.timeout);
       } else {
-        throw new ExternalServiceError('OpenAI', error.message);
+        throw new ExternalApiError('OpenAI', error as Error);
       }
     }
   }
@@ -176,9 +176,9 @@ class OpenAIService {
 
     // Rate limiting plus strict pour les images
     if (userId) {
-      const rateLimitResult = await rateLimiterService.checkLimitByUser(userId, 'image-generation');
-      if (!rateLimitResult.allowed) {
-        throw new Error(`Image generation rate limit exceeded for user ${userId}. Try again later.`);
+      const { success } = await rateLimiterService.limit(userId);
+      if (!success) {
+        throw new RateLimitError();
       }
     }
 
@@ -249,7 +249,7 @@ class OpenAIService {
       } else if (error.code === 'billing_quota_exceeded') {
         throw new Error('Image generation quota exceeded.');
       } else {
-        throw new ExternalServiceError('OpenAI Image', error.message);
+        throw new ExternalApiError('OpenAI Image', error as Error);
       }
     }
   }
@@ -279,7 +279,7 @@ class OpenAIService {
       return { error: 'Usage method not available in OpenAI v4' };
     } catch (error: any) {
       logger.error(LogCategory.API, 'Failed to get OpenAI usage', error);
-      throw new ExternalServiceError('OpenAI Usage', error.message);
+      throw new ExternalApiError('OpenAI Usage', error as Error);
     }
   }
 
