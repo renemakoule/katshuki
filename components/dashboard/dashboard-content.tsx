@@ -54,6 +54,9 @@ import { InnovationLabSection } from "./sections/innovation-lab"
 // Ajoutez cet import en haut du fichier
 import { PreferencesSection } from "./sections/preferences"
 import { JobTracker } from "./job-tracker"
+import { TemplateLibrary } from "./template-library"
+import { BrandKitManager } from "./brand-kit-manager"
+import { AnalyticsDashboard } from "./analytics-dashboard"
 
 interface DashboardContentProps {
   activeSection: string
@@ -258,6 +261,12 @@ export function DashboardContent({ activeSection }: DashboardContentProps) {
         return <PreferencesSection />
       case "jobs":
         return <JobTracker className="p-6" />
+      case "templates":
+        return <TemplateLibrary />
+      case "brand-kit":
+        return <BrandKitManager />
+      case "analytics":
+        return <AnalyticsDashboard />
       case "copilot":
       default:
         return <DefaultDashboardContent />

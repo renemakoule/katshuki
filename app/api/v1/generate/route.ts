@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
       useCase: body.useCase,
       choices: body.choices,
       userId: body.userId,
+      params: undefined
     };
 
     // Instantiate the orchestrator and handle the request

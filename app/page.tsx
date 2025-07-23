@@ -28,7 +28,7 @@ export default function LandingPage() {
       {/* NOUVEAU: Arrière-plan créatif avec formes colorées et découpées */}
       <CreativeBackground
         // Ces classes le transforment en arrière-plan
-        className="absolute inset-0 z-0 opacity-20 dark:opacity-30"
+        className="absolute inset-0 z-0 blur-sm opacity-20 dark:opacity-30"
       />
 
       {/* Header fixe */}

@@ -93,6 +93,28 @@ const aiFeatures = [
     gradient: "from-purple-500 via-pink-500 to-orange-500",
   },
   {
+    title: "Templates",
+    url: "#",
+    icon: Wand2,
+    id: "templates",
+    gradient: "from-purple-500 via-pink-500 to-red-500",
+    badge: "500+",
+  },
+  {
+    title: "Brand Kit",
+    url: "#",
+    icon: Palette,
+    id: "brand-kit",
+    gradient: "from-blue-500 via-purple-500 to-pink-500",
+  },
+  {
+    title: "Analytics",
+    url: "#",
+    icon: Activity,
+    id: "analytics",
+    gradient: "from-green-500 via-teal-500 to-blue-500",
+  },
+  {
     title: "Inspiration AI",
     url: "#",
     icon: Lightbulb,
